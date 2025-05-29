@@ -1,40 +1,21 @@
-import { useEffect, useState } from "react";
-import { generatePuzzle, solveSudoku } from "./sudoku";
-import SudokuBoard from "./components/SudokuBoard";
+import { useState } from 'react';
+import Board from './components/Board';
+import Controls from './components/Controls';
+import { generateBoard } from './utils/sudokuGenerator';
+import './App.css';
 
 function App() {
-  const [board, setBoard] = useState([]);
+  const [board, setBoard] = useState(generateBoard('easy'));
 
-  useEffect(() => {
-    const newGame = generatePuzzle();
-    setBoard(newGame);
-  }, []);
-
-  const handleChange = (row, col, value) => {
-    const newBoard = board.map(r => [...r]);
-    newBoard[row][col] = value;
-    setBoard(newBoard);
-  };
-
-  const handleSolve = () => {
-    const solved = board.map(r => [...r]);
-    solveSudoku(solved);
-    setBoard(solved);
-  };
-
-  const handleNewGame = () => {
-    const newGame = generatePuzzle();
-    setBoard(newGame);
+  const handleNewGame = (difficulty) => {
+    setBoard(generateBoard(difficulty));
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Sudoku 🧩</h1>
-      {board.length > 0 && (
-        <SudokuBoard board={board} onChange={handleChange} />
-      )}
-      <button onClick={handleSolve}>Resolver</button>
-      <button onClick={handleNewGame}>Nuevo juego</button>
+    <div className="app">
+      <h1>Lulu Sudoku</h1>
+      <Board board={board} setBoard={setBoard} />
+      <Controls onNewGame={handleNewGame} />
     </div>
   );
 }
