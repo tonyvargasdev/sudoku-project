@@ -1,12 +1,40 @@
 import Cell from './Cell';
-import { isValidMove } from '../utils/validator';
 
-const Board = ({ board, setBoard }) => {
+const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLose }) => {
   const handleCellChange = (row, col, value) => {
-    if (value >= 0 && value <= 9) {
-      const newBoard = [...board];
-      newBoard[row][col] = value; // value puede ser 0 (borrado)
+    if (board[row][col].isInitial) return;
+
+    const newBoard = board.map((r, i) =>
+      r.map((cell, j) =>
+        i === row && j === col
+          ? { ...cell, value }
+          : cell
+      )
+    );
+
+    if (value === 0) {
       setBoard(newBoard);
+      return;
+    }
+
+    // Verifica si es correcto
+    if (value === solution[row][col]) {
+      setBoard(newBoard);
+      // Verifica si ganó
+      const hasWon = newBoard.every(row =>
+        row.every(cell => cell.value !== 0)
+      );
+      if (hasWon) {
+        setGameStatus('won');
+      }
+    } else {
+      // Error: pierde una vida
+      const newLives = lives - 1;
+      setLives(newLives);
+      if (newLives <= 0) {
+        alert('¡Perdiste! 😢 El juego se reiniciará.');
+        onLose();
+      }
     }
   };
 
@@ -20,7 +48,6 @@ const Board = ({ board, setBoard }) => {
               value={cell.value}
               isInitial={cell.isInitial}
               onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
-              
             />
           ))}
         </div>

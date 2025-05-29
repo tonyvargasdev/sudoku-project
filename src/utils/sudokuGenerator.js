@@ -1,5 +1,3 @@
-// sudokuGenerator.js
-
 const generateEmptyBoard = () => Array.from({ length: 9 }, () => Array(9).fill(0));
 
 const isSafe = (board, row, col, num) => {
@@ -30,18 +28,18 @@ const fillBoard = (board) => {
             board[row][col] = 0;
           }
         }
-        return false; // No hay número válido aquí
+        return false;
       }
     }
   }
-  return true; // Tablero completo
+  return true;
 };
 
 const removeNumbers = (board, difficulty) => {
   const removalCounts = {
-    easy: 35,
-    medium: 45,
-    hard: 55,
+    easy: 45,
+    medium: 55,
+    hard: 65,
   };
 
   let attempts = removalCounts[difficulty] || 35;
@@ -69,14 +67,17 @@ const shuffleArray = (arr) => {
 
 export const generateBoard = (difficulty = 'easy') => {
   const board = generateEmptyBoard();
-  fillBoard(board); // Crea una solución válida
-  const puzzle = removeNumbers(board, difficulty); // Elimina según dificultad
+  fillBoard(board);
+  const solution = board.map(row => [...row]);
+  const puzzle = removeNumbers(board.map(row => [...row]), difficulty);
 
-  // Transforma a objetos con metadata
-  return puzzle.map(row =>
+  const puzzleWithMeta = puzzle.map(row =>
     row.map(cell => ({
       value: cell,
       isInitial: cell !== 0,
     }))
   );
+
+  return { puzzle: puzzleWithMeta, solution };
 };
+
