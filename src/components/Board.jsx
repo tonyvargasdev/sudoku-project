@@ -5,7 +5,7 @@ const Board = ({ board, setBoard }) => {
   const handleCellChange = (row, col, value) => {
     if (value >= 0 && value <= 9) {
       const newBoard = [...board];
-      newBoard[row][col] = value === 0 ? 0 : value; // Permite borrar (0)
+      newBoard[row][col] = value; // value puede ser 0 (borrado)
       setBoard(newBoard);
     }
   };
@@ -17,9 +17,10 @@ const Board = ({ board, setBoard }) => {
           {row.map((cell, colIndex) => (
             <Cell
               key={`${rowIndex}-${colIndex}`}
-              value={cell}
+              value={cell.value}
+              isInitial={cell.isInitial}
               onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
-              isInitial={board[rowIndex][colIndex] !== 0}
+              
             />
           ))}
         </div>

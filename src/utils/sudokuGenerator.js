@@ -12,5 +12,14 @@ export const generateBoard = (difficulty = 'easy') => {
     [0, 0, 0, 4, 1, 9, 0, 0, 5],
     [0, 0, 0, 0, 8, 0, 0, 7, 9],
   ];
-  return easyBoard; // Más adelante puedes implementar generación aleatoria
+
+    // Convertir el tablero a objetos con metadata
+  const boardWithMetadata = easyBoard.map(row =>
+    row.map(cellValue => ({
+      value: cellValue,
+      isInitial: cellValue !== 0 // true si no es cero
+    }))
+  );
+
+  return boardWithMetadata;
 };
