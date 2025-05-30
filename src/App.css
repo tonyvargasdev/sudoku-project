@@ -1,35 +1,40 @@
 .app {
+  display: flex;
+  flex-direction: column;
   background-color: #fdcf00; /* amarillo */
   max-width: 900px;       /* ancho máximo para que no ocupe toda la pantalla */
   margin: 40px auto;      /* centrado horizontal con margen arriba y abajo */
   padding: 20px 30px;     /* espacio interior para que no esté pegado */
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   min-height: 80vh;       /* para que ocupe casi toda la altura visible */
   text-align: center;
 }
 
 .board {
-  display: grid;
-  grid-template-columns: repeat(9, 50px);
+  display: flex;
+  flex-direction: column;
   gap: 2px;
   margin: 20px auto;
-  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .row {
-  display: contents;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  max-width: 500px;
 }
 
 .cell {
-  width: 50px;
-  height: 50px;
+  aspect-ratio: 1 / 1;
+  width: 10%;
   text-align: center;
-  font-size: 25px;
+  font-size: clamp(12px, 4vw, 24px);
   border: 3px solid black;
   background-color: #fda4b0;
-  color:black
-  
+  color: black;
 }
 
 .cell.initial {
@@ -37,12 +42,14 @@
   font-weight: bold;
 }
 
-.cell.correct{
+.cell.correct {
   background-color: #00a151;
   font-weight: bold;
 }
 
 .controls {
+  display: flex;
+  justify-content: center;
   margin: 20px;
 }
 
@@ -71,16 +78,20 @@
   font-size: 25px;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-family: 'Audiowide', cursive;
+  margin-top: 0px;
+  margin-bottom: 12px;
 }
 
-h1{
+h1 {
   font-size: 40px;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
-  background-color:#006de5
+  background-color: #006de5
 }
