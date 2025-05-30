@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import Cell from './Cell';
 
 const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLose }) => {
+  const [selectedValue, setSelectedValue] = useState(null);
+
   const handleCellChange = (row, col, value) => {
-    if (board[row][col].isInitial) return;
+    if (board[row][col].isInitial || board[row][col].isCorrect) return;
 
     const correctValue = solution[row][col];
     const isCorrect = value === correctValue;
@@ -13,7 +16,8 @@ const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLo
           ? {
               ...cell,
               value,
-              isIncorrect: !isCorrect && value !== 0, // marca en rojo si está mal
+              isIncorrect: !isCorrect && value !== 0,
+              isCorrect: isCorrect && !cell.isInitial,
             }
           : cell
       )
@@ -30,7 +34,6 @@ const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLo
       }
     }
 
-    // Si el valor es correcto, revisamos si ya ganó
     if (isCorrect) {
       const hasWon = newBoard.every(row =>
         row.every(cell => cell.value !== 0 && !cell.isIncorrect)
@@ -41,19 +44,38 @@ const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLo
     }
   };
 
+  const handleCellClick = (row, col) => {
+    const cell = board[row][col];
+    if (cell.isInitial || cell.isCorrect) {
+      setSelectedValue(cell.value);
+    } else {
+      setSelectedValue(null);
+    }
+  };
+
   return (
     <div className="board">
       {board.map((row, rowIndex) => (
         <div key={rowIndex} className="row">
-          {row.map((cell, colIndex) => (
-            <Cell
-              key={`${rowIndex}-${colIndex}`}
-              value={cell.value}
-              isInitial={cell.isInitial}
-              isIncorrect={cell.isIncorrect}
-              onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
-            />
-          ))}
+          {row.map((cell, colIndex) => {
+            const isHighlighted =
+              selectedValue !== null &&
+              cell.value === selectedValue &&
+              cell.value !== 0;
+
+            return (
+              <Cell
+                key={`${rowIndex}-${colIndex}`}
+                value={cell.value}
+                isInitial={cell.isInitial}
+                isIncorrect={cell.isIncorrect}
+                isCorrect={cell.isCorrect}
+                isHighlighted={isHighlighted}
+                onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
+                onClick={() => handleCellClick(rowIndex, colIndex)}
+              />
+            );
+          })}
         </div>
       ))}
     </div>

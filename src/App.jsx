@@ -9,6 +9,7 @@ function App() {
   const [solution, setSolution] = useState([]);
   const [gameStatus, setGameStatus] = useState('playing'); // 'playing', 'won', 'lost'
   const [lives, setLives] = useState(3);
+  const [selectedNumber, setSelectedNumber] = useState(null); // 🆕 Número seleccionado
 
   const handleNewGame = (difficulty) => {
     const { puzzle, solution } = generateBoard(difficulty);
@@ -35,6 +36,8 @@ function App() {
         lives={lives}
         setLives={setLives}
         setGameStatus={setGameStatus}
+        selectedNumber={selectedNumber} 
+        setSelectedNumber={setSelectedNumber} 
         onLose={() => handleNewGame('easy')}
       />
       <Controls onNewGame={handleNewGame} />
