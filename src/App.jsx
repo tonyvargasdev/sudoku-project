@@ -26,8 +26,8 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Lulu Sudoku</h1>
-      <h2>Vidas: {lives}</h2>
+      <h1>LuluDoku</h1>
+      <h2>Lives: {lives}</h2>
       {gameStatus === 'won' && <div className="win-message">¡Ganaste! 🎉</div>}
       <Board
         board={board}
