@@ -1,9 +1,6 @@
-import { useState } from 'react';
 import Cell from './Cell';
 
 const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLose }) => {
-  const [selectedValue, setSelectedValue] = useState(null);
-
   const handleCellChange = (row, col, value) => {
     if (board[row][col].isInitial || board[row][col].isCorrect) return;
 
@@ -44,38 +41,20 @@ const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLo
     }
   };
 
-  const handleCellClick = (row, col) => {
-    const cell = board[row][col];
-    if (cell.isInitial || cell.isCorrect) {
-      setSelectedValue(cell.value);
-    } else {
-      setSelectedValue(null);
-    }
-  };
-
   return (
     <div className="board">
       {board.map((row, rowIndex) => (
         <div key={rowIndex} className="row">
-          {row.map((cell, colIndex) => {
-            const isHighlighted =
-              selectedValue !== null &&
-              cell.value === selectedValue &&
-              cell.value !== 0;
-
-            return (
-              <Cell
-                key={`${rowIndex}-${colIndex}`}
-                value={cell.value}
-                isInitial={cell.isInitial}
-                isIncorrect={cell.isIncorrect}
-                isCorrect={cell.isCorrect}
-                isHighlighted={isHighlighted}
-                onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
-                onClick={() => handleCellClick(rowIndex, colIndex)}
-              />
-            );
-          })}
+          {row.map((cell, colIndex) => (
+            <Cell
+              key={`${rowIndex}-${colIndex}`}
+              value={cell.value}
+              isInitial={cell.isInitial}
+              isIncorrect={cell.isIncorrect}
+              isCorrect={cell.isCorrect}
+              onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
+            />
+          ))}
         </div>
       ))}
     </div>

@@ -1,7 +1,7 @@
-const Cell = ({ value, isInitial, isIncorrect, isCorrect, onChange, onClick, isHighlighted }) => {
+const Cell = ({ value, isInitial, isIncorrect, isCorrect, onChange }) => {
   const handleInputChange = (e) => {
     const val = parseInt(e.target.value, 10);
-    if (isInitial || isCorrect) return; // Evita cambios en celdas bloqueadas
+    if (isInitial || isCorrect) return;
 
     if (isNaN(val) || val < 1 || val > 9) {
       onChange(0);
@@ -12,15 +12,16 @@ const Cell = ({ value, isInitial, isIncorrect, isCorrect, onChange, onClick, isH
 
   return (
     <input
-      className={`cell ${isInitial ? 'initial' : ''} ${isIncorrect ? 'incorrect' : ''} ${isHighlighted ? 'highlighted' : ''}`}
+      className={`cell ${isInitial ? 'initial' : ''} ${isIncorrect ? 'incorrect' : ''} ${isCorrect ? 'correct' : ''}`}
       type="text"
       value={value === 0 ? '' : value}
       disabled={isInitial || isCorrect}
       onChange={handleInputChange}
-      onClick={onClick}
       maxLength={1}
     />
   );
 };
 
 export default Cell;
+
+
