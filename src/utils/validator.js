@@ -16,4 +16,4 @@ export const isValidMove = (board, row, col, num) => {
   }
 
   return true;
-};
+}; 

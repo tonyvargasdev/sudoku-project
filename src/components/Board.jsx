@@ -1,6 +1,10 @@
+import React, { useRef } from 'react';
 import Cell from './Cell';
 
 const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLose }) => {
+  // Cargar el audio una vez
+  const correctSound = useRef(new Audio('/sounds/correct.wav'));
+
   const handleCellChange = (row, col, value) => {
     if (board[row][col].isInitial || board[row][col].isCorrect) return;
 
@@ -32,6 +36,8 @@ const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLo
     }
 
     if (isCorrect) {
+      correctSound.current.play();  // <-- Aquí suena cuando aciertas
+
       const hasWon = newBoard.every(row =>
         row.every(cell => cell.value !== 0 && !cell.isIncorrect)
       );
@@ -62,3 +68,4 @@ const Board = ({ board, setBoard, solution, lives, setLives, setGameStatus, onLo
 };
 
 export default Board;
+
