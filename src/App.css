@@ -1,49 +1,109 @@
+/* General Resets */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: #006de5;
+  font-family: sans-serif;
+}
+
+/* Titles */
+h1, h2 {
+  font-family: 'Audiowide', cursive;
+  margin: 0 0 20px;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+/* App container */
 .app {
-  background-color: #fdcf00; /* amarillo */
-  max-width: 900px;       /* ancho máximo para que no ocupe toda la pantalla */
-  margin: 40px auto;      /* centrado horizontal con margen arriba y abajo */
-  padding: 20px 30px;     /* espacio interior para que no esté pegado */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fdcf00;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  min-height: 80vh;       /* para que ocupe casi toda la altura visible */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  min-height: 80vh;
   text-align: center;
 }
 
+/* Board */
 .board {
-  display: grid;
-  grid-template-columns: repeat(9, 50px);
+  display: flex;
+  flex-direction: column;
   gap: 2px;
-  margin: 20px auto;
-  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px 0px;
 }
 
 .row {
-  display: contents;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
 }
 
 .cell {
-  width: 50px;
-  height: 50px;
+  aspect-ratio: 1;
+  flex: 1;
+  max-width: calc((100% - 16px) / 9); /* 9 cells per row with 2px gaps */
   text-align: center;
-  font-size: 25px;
+  font-size: clamp(14px, 4vw, 24px);
   border: 3px solid black;
   background-color: #fda4b0;
-  color:black
-  
+  color: black;
 }
 
-.cell.initial {
+/* Fix iOS Safari aspect-ratio issues */
+.cell::before {
+  content: '';
+  float: left;
+  padding-top: 100%;
+}
+
+.cell::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* State styles */
+.cell.initial,
+.cell.correct {
   background-color: #00a151;
   font-weight: bold;
 }
 
-.cell.correct{
-  background-color: #00a151;
+/* Make disabled cells look the same as correct ones */
+.cell:disabled {
+  background-color: #00a151 !important;
   font-weight: bold;
+  opacity: 1; /* Reset iOS Safari graying out */
+  -webkit-text-fill-color: black; /* Prevent Safari from applying gray */
 }
 
+.cell.incorrect {
+  background-color: #f8d7da;
+  border: 2px solid red;
+  color: red;
+  font-size: 25px;
+}
+
+/* Buttons */
 .controls {
-  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  margin: 0 0 20px;
 }
 
 .controls button {
@@ -62,25 +122,4 @@
 .controls button:hover {
   background-color: #00a151;
   transform: translateY(-2px);
-}
-
-.cell.incorrect {
-  background-color: #f8d7da;
-  border: 2px solid red;
-  color: red;
-  font-size: 25px;
-}
-
-h1, h2 {
-  font-family: 'Audiowide', cursive;
-}
-
-h1{
-  font-size: 40px;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  background-color:#006de5
 }
