@@ -44,6 +44,7 @@ h1 {
   width: 100%;
   max-width: 500px;
   margin: 20px 0px;
+  
 }
 
 .row {
@@ -122,4 +123,25 @@ h1 {
 .controls button:hover {
   background-color: #00a151;
   transform: translateY(-2px);
+}
+
+/* --- 1. Gap adicional cada 3 filas (bloques horizontales) --- */
+.row:nth-child(3n) {
+  margin-bottom: 6px; /* 2px (gap base) + 4px extra = 6px total */
+}
+
+/* --- 2. Gap adicional cada 3 celdas (bloques verticales) --- */
+.cell:nth-child(3n) {
+  margin-right: 6px; /* 2px (gap base) + 4px extra = 6px total */
+  
+}
+
+/* --- 3. Reset para los últimos elementos --- */
+.row:last-child {
+  margin-bottom: 0; /* Elimina margen extra en última fila */
+}
+
+.cell:last-child {
+  margin-right: 0; /* Elimina margen extra en última celda */
+  
 }
